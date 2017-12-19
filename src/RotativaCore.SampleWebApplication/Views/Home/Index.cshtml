@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>@ViewBag.Message</h2>
+<p>
+    <ul>
+        <li>@Html.ActionLink("Home", "Index", new { name = "Giorgio" })</li>
+        <li>@Html.ActionLink("Test", "Test", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Test Image", "TestImage", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Test Image Png", "TestImagePng", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Test URL", "TestUrl", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Test External URL", "TestExternalUrl", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Test View", "TestView", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Test View Image", "TestViewImage", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Route Test", "RouteTest", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Test ViewAsPdf with a model", "TestViewWithModel")</li>
+        <li>@Html.ActionLink("Test ViewAsImage with a model", "TestImageViewWithModel")</li>
+        <li>@Html.ActionLink("Test PartialViewAsPdf with a model", "TestPartialViewWithModel")</li>
+        <li>@Html.ActionLink("Test PartialViewAsImage with a model", "TestImagePartialViewWithModel")</li>
+        <li>@Html.ActionLink("Error Test", "ErrorTest", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Binary Test", "BinaryTest", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Ajax Test", "Index", "AjaxTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Ajax Image Test", "IndexImage", "AjaxTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("External CSS Test", "Index", "CssTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("External CSS Test Image", "IndexImage", "CssTests", null, null, null, null, null)</li>
+    </ul>
+    
+</p>
+
+<p>Some text with non ascii char àéù</p>
+<p>日本語テキスト 12345 １２３４５ 全角　半角 日本語 𩸽 ｶﾀｶﾅ 𩸽</p>
