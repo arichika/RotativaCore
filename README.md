@@ -1,4 +1,4 @@
-Extremely easy way to create Pdf files from Asp.net MVC.
+Extremely easy way to create Pdf files from ASP.NET Core.
 =========================================================
 
 Usage:
@@ -30,7 +30,3 @@ Also available a RouteAsPdf, UrlAsPdf and ViewAsPdf ActionResult.
 It generates Pdf also from authorized actions (web forms authentication).
 
 You can also output images from MVC with ActionAsImage, ViewAsImage, RouteAsImage, UrlAsImage.
-
-##Rotativa HQ
-
-[RotativaHQ.com](http://rotativahq.com) is an API (SaaS) version of Rotativa, hosted on Azure. You can register for free.
