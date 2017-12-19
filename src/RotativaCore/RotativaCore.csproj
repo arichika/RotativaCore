@@ -17,6 +17,11 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <Copyright>MIT</Copyright>
+    <PackageProjectUrl>https://github.com/arichika/RotativaCore</PackageProjectUrl>
+    <Authors>@arichika (arichika.taniguchi)</Authors>
+    <RepositoryUrl>https://github.com/arichika/RotativaCore</RepositoryUrl>
+    <PackageTags>netcore,aspnetcore,pdf,wkhtmltopdf</PackageTags>
+    <PackageLicenseUrl>https://github.com/arichika/RotativaCore/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
