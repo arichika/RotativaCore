@@ -97,14 +97,30 @@ namespace RotativaCore
         public string Password { get; set; }
 
         /// <summary>
+        /// Disable the intelligent shrinking strategy used by WebKit that makes the pixel/dpi ratio none constant
+        /// </summary>
+        [OptionFlag("--disable-smart-shrinking")]
+        public bool DisableSmartShrinking { get; set; }
+
+        /// <summary>
+        /// Set viewport size if you have custom scrollbars or css attribute overflow to emulate window size (default 800)
+        /// </summary>
+        [OptionFlag("--viewport-size")]
+        public double? ViewportSize { get; set; }
+
+        /// <summary>
         /// Use this if you need another switches that are not currently supported by Rotativa.
         /// </summary>
         [OptionFlag("")]
         public string CustomSwitches { get; set; }
 
+
         [Obsolete(@"Use BuildFile(ActionContext) method instead and use the resulting binary data to do what needed.")]
         public string SaveOnServerPath { get; set; }
 
+        /// <summary>
+        /// Set 'Content-Disposition' Response Header. If you set 'FileName', this value is ignored and "attachment" is forced.
+        /// </summary>
         public ContentDisposition ContentDisposition { get; set; }
 
         protected abstract string GetUrl(ActionContext  context);
@@ -234,9 +250,11 @@ namespace RotativaCore
 
             if (!string.IsNullOrEmpty(FileName))
             {
-                response.Headers.Add("Content-Disposition", string.Format("attachment; filename=\"{0}\"", SanitizeFileName(FileName)));
+                response.Headers.Add("Content-Disposition", $"attachment; filename=\"{SanitizeFileName(FileName).Trim()}\"");
+                return response;
             }
 
+            response.Headers.Add("Content-Disposition", $"{ContentDisposition.ToString().ToLower()}");
             return response;
         }
 

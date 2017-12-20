@@ -5,7 +5,7 @@
     <AssemblyName>RotativaCore</AssemblyName>
     <PackageId>RotativaCore</PackageId>
     <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

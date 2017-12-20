@@ -54,6 +54,8 @@ namespace RotativaCore
         [OptionFlag("--height")]
         public int? PageHeight { get; set; }
 
+
+
         protected override byte[] WkhtmlConvert(string switches)
         {
             return WkhtmltoimageDriver.Convert(this.WkhtmlPath, switches);

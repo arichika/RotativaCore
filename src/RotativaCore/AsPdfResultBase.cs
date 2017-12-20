@@ -45,30 +45,14 @@ namespace RotativaCore
         /// </summary>
         public Margins PageMargins { get; set; }
 
-        protected override byte[] WkhtmlConvert(string switches)
-        {
-            return WkhtmltopdfDriver.Convert(this.WkhtmlPath, switches);
-        }
-
-        protected override string GetContentType()
-        {
-            return "application/pdf";
-        }
-
         /// <summary>
         /// Path to wkhtmltopdf binary.
         /// </summary>
         [Obsolete("Use WkhtmlPath instead of CookieName.", false)]
         public string WkhtmltopdfPath
         {
-            get
-            {
-                return this.WkhtmlPath;
-            }
-            set
-            {
-                this.WkhtmlPath = value;
-            }
+            get => this.WkhtmlPath;
+            set => this.WkhtmlPath = value;
         }
 
         /// <summary>
@@ -88,6 +72,18 @@ namespace RotativaCore
         /// </summary>
         [OptionFlag("-g")]
         public bool IsGrayScale { get; set; }
+        
+
+
+        protected override byte[] WkhtmlConvert(string switches)
+        {
+            return WkhtmltopdfDriver.Convert(this.WkhtmlPath, switches);
+        }
+
+        protected override string GetContentType()
+        {
+            return "application/pdf";
+        }
 
         protected override string GetConvertOptions()
         {
