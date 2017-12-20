@@ -4,10 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>RotativaCore</AssemblyName>
     <PackageId>RotativaCore</PackageId>
+
     <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
-    <Version>2.1.0</Version>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -16,12 +17,23 @@
     <GenerateAssemblyAssemblyVersionAttribute>fasle</GenerateAssemblyAssemblyVersionAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <Copyright>MIT</Copyright>
-    <PackageProjectUrl>https://github.com/arichika/RotativaCore</PackageProjectUrl>
+    <GenerateAssemblyDescription>false</GenerateAssemblyDescription>
+
+    <Version>2.1.0</Version>
+    <PackageVersion>2.1.0</PackageVersion>
+
     <Authors>@arichika (arichika.taniguchi)</Authors>
+    <Title>RotativaCore</Title>
+    <Description>Convert HTML to PDF by WkHtmlToPdf for ASP.NET Core on Azure Web Apps (Windows).  Forked from Rotativa. Target for .NETStandard 2.0.</Description>
+    <Copyright>MIT</Copyright>
+    <PackageTags>netcore;aspnetcore;pdf;wkhtmltopdf;</PackageTags>
+    <PackageReleaseNotes>This is the initial version of the port and "Preview Release".  It is not fully tested.
+Support setting switch --disable-smart-shrinking, --viewport-size from C# code , and some refactoring.</PackageReleaseNotes>
+
+    <PackageProjectUrl>https://github.com/arichika/RotativaCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/arichika/RotativaCore</RepositoryUrl>
-    <PackageTags>netcore,aspnetcore,pdf,wkhtmltopdf</PackageTags>
     <PackageLicenseUrl>https://github.com/arichika/RotativaCore/blob/master/LICENSE</PackageLicenseUrl>
+
   </PropertyGroup>
 
   <ItemGroup>
