@@ -20,7 +20,7 @@
     <GenerateAssemblyDescription>false</GenerateAssemblyDescription>
 
     <Version>2.1.1</Version>
-    <PackageVersion>2.1.0</PackageVersion>
+    <PackageVersion>2.1.1</PackageVersion>
 
     <Authors>@arichika (arichika.taniguchi)</Authors>
     <Title>RotativaCore</Title>
