@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using RotativaCore.Options;
@@ -12,27 +13,51 @@ namespace RotativaCore.SampleWebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(string name)
+        public ActionResult Index(string name = "World")
         {
-            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", name);
+            ViewBag.Message = string.Format("Hello {0}, Welcome to ASP.NET Core!", name);
 
             return View();
         }
 
 
-        public ActionResult Test()
+        public ActionResult TestInlie()
         {
-            return new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf", ContentDisposition=ContentDisposition.Inline };
+            return new ActionAsPdf("Index", new { name = "Friends" })
+            {
+                //FileName = "Test.pdf",
+                ContentDisposition = ContentDisposition.Inline,
+            };
+        }
+
+        public ActionResult TestAttachmentWithA4LandscapeDisableSmartShrinkingViewPortSize1024()
+        {
+            return new ActionAsPdf("Index", new { name = "Friends" })
+            {
+                FileName = "TestWithA4LandscapeDisableSmartShrinkingViewPortSize1024.pdf",
+                ContentDisposition = ContentDisposition.Attachment,
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Landscape,
+                DisableSmartShrinking = true,
+                ViewportSize = 1024,
+            };
         }
 
         public ActionResult TestImage()
         {
-            return new ActionAsImage("Index", new { name = "Giorgio" }) { FileName = "Test.jpg" };
+            return new ActionAsImage("Index", new { name = "Friends" })
+            {
+                FileName = "TestImage.jpg"
+            };
         }
 
         public ActionResult TestImagePng()
         {
-            return new ActionAsImage("Index", new { name = "Giorgio" }) { FileName = "Test.png", Format = ImageFormat.png };
+            return new ActionAsImage("Index", new { name = "Friends" })
+            {
+                FileName = "TestImagePng.png",
+                Format = ImageFormat.png
+            };
         }
 
         public ActionResult TestUrl()
@@ -42,9 +67,12 @@ namespace RotativaCore.SampleWebApplication.Controllers
             // where you create correct URL according to passed conditions, prepare some complex model, etc.
 
             var urlHelper = new UrlHelper(ControllerContext);
-            string url = urlHelper.Action("Index", new { name = "Giorgio II." });
+            var url = urlHelper.Action("Index", new { name = "Great Friends" });
 
-            return new UrlAsPdf(url) { FileName = "TestUrl.pdf" };
+            return new UrlAsPdf(url)
+            {
+                FileName = "TestUrl.pdf"
+            };
         }
 
         public ActionResult TestExternalUrl()
@@ -53,10 +81,10 @@ namespace RotativaCore.SampleWebApplication.Controllers
             // You can do that by specifying full URL.
 
             return new UrlAsPdf("http://www.github.com")
-                       {
-                           FileName = "TestExternalUrl.pdf",
-                           PageMargins = new Margins(0, 0, 0, 0)
-                       };
+            {
+                FileName = "TestExternalUrl.pdf",
+                PageMargins = new Margins(0, 0, 0, 0)
+            };
         }
 
         public ActionResult TestView()
@@ -67,7 +95,7 @@ namespace RotativaCore.SampleWebApplication.Controllers
 
             // Probably the biggest advantage of this approach is that you have Session object available.
 
-            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", "Giorgio III.");
+            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", "Super Great Friends");
             return new ViewAsPdf("Index")
             {
                 FileName = "TestView.pdf",
@@ -86,40 +114,68 @@ namespace RotativaCore.SampleWebApplication.Controllers
 
             // Probably the biggest advantage of this approach is that you have Session object available.
 
-            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", "Giorgio III.");
+            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", "Super Great Friends");
             return new ViewAsImage("Index")
             {
-                FileName = "TestView.png",
+                FileName = "TestViewImage.png",
             };
         }
 
         public ActionResult TestViewWithModel(string id)
         {
-            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test" };
-            return new ViewAsPdf("TestViewWithModel",model);
+            var model = new TestViewModel
+            {
+                DocTitle = id, DocContent = "This is a test"
+            };
+
+            return new ViewAsPdf("TestViewWithModel",model)
+            {
+                FileName = "TestViewWithModel.pdf"
+            };
         }
 
         public ActionResult TestImageViewWithModel(string id)
         {
-            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test" };
-            return new ViewAsImage("TestViewWithModel", model);
+            var model = new TestViewModel
+            {
+                DocTitle = id, DocContent = "This is a test"
+            };
+
+            return new ViewAsImage("TestViewWithModel", model)
+            {
+                FileName = "TestImageViewWithModel.pdf"
+            };
         }
 
         public ActionResult TestPartialViewWithModel(string id)
         {
-            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test with a partial view" };
-            return new PartialViewAsPdf("TestPartialViewWithModel",model);
+            var model = new TestViewModel
+            {
+                DocTitle = id, DocContent = "This is a test with a partial view"
+            };
+
+            return new PartialViewAsPdf("TestPartialViewWithModel", model)
+            {
+                FileName = "TestPartialViewWithModel.pdf"
+            };
         }
 
         public ActionResult TestImagePartialViewWithModel(string id)
         {
-            var model = new TestViewModel { DocTitle = id, DocContent = "This is a test with a partial view" };
+            var model = new TestViewModel
+            {
+                DocTitle = id, DocContent = "This is a test with a partial view"
+            };
+
             return new PartialViewAsImage("TestPartialViewWithModel", model);
         }
 
         public ActionResult ErrorTest()
         {
-            return new ActionAsPdf("SomethingBad") { FileName = "Test.pdf" };
+            return new ActionAsPdf("SomethingBad")
+            {
+                FileName = "ErrorTest.pdf"
+            };
         }
 
         public ActionResult SomethingBad()
@@ -129,12 +185,18 @@ namespace RotativaCore.SampleWebApplication.Controllers
 
         public ActionResult RouteTest()
         {
-            return new RouteAsPdf("TestRoute", new {name = "Giorgio"}) { FileName = "Test.pdf" };
+            return new RouteAsPdf("TestRoute", new {name = "Friends"})
+            {
+                FileName = "RouteTest.pdf"
+            };
         }
         
         public ActionResult BinaryTest()
         {
-            var pdfResult = new ActionAsPdf("Index", new { name = "Giorgio" }) { FileName = "Test.pdf" };
+            var pdfResult = new ActionAsPdf("Index", new { name = "Friends" })
+            {
+                FileName = "BinaryTest.pdf"
+            };
 
             var binary = pdfResult.BuildPdf(this.ControllerContext);
 

@@ -1,0 +1,32 @@
+﻿.printFontPGothicBold {
+    font-family: "ＭＳ Ｐゴシック","MS PGothic";
+    font-weight: 700;
+}
+.printFontPGothicRegular {
+    font-family: "ＭＳ Ｐゴシック","MS PGothic";
+    font-weight: 400;
+}
+.printFontGothicBold {
+    font-family: "ＭＳ ゴシック","MS Gothic";
+    font-weight: 700;
+}
+.printFontGothicRegular {
+    font-family: "ＭＳ ゴシック","MS Gothic";
+    font-weight: 400;
+}
+.printFontPMinchoBold {
+    font-family: "ＭＳ Ｐ明朝","MS PMincho";
+    font-weight: 700;
+}
+.printFontPMinchoRegular {
+    font-family: "ＭＳ Ｐ明朝","MS PMincho";
+    font-weight: 400;
+}
+.printFontMinchoBold {
+    font-family: "ＭＳ 明朝","MS Mincho";
+    font-weight: 700;
+}
+.printFontMinchoRegular {
+    font-family: "ＭＳ 明朝","MS Mincho";
+    font-weight: 400;
+}
