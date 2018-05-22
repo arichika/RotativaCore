@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -19,8 +19,7 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyDescription>false</GenerateAssemblyDescription>
 
-    <Version>2.1.1</Version>
-    <PackageVersion>2.1.1</PackageVersion>
+    <Version>2.2.0</Version>
 
     <Authors>@arichika (arichika.taniguchi)</Authors>
     <Title>RotativaCore</Title>
@@ -28,7 +27,7 @@
     <Copyright>MIT</Copyright>
     <PackageTags>netcore;aspnetcore;pdf;wkhtmltopdf;</PackageTags>
     <PackageReleaseNotes>This is the initial version of the port and "Preview Release".  It is not fully tested.
-Support setting switch --disable-smart-shrinking, --viewport-size from C# code , and some refactoring.</PackageReleaseNotes>
+Support new event. OnBuildFileSuccess Func&lt;T&gt;. For example, use this event to save the PDF to BLOB.</PackageReleaseNotes>
 
     <PackageProjectUrl>https://github.com/arichika/RotativaCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/arichika/RotativaCore</RepositoryUrl>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using RotativaCore.Options;
 using RotativaCore;
 using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.WindowsAzure.Storage;
 using RotativaCore.SampleWebApplication.Models;
 
 namespace RotativaCore.SampleWebApplication.Controllers
@@ -27,6 +28,34 @@ namespace RotativaCore.SampleWebApplication.Controllers
             {
                 //FileName = "Test.pdf",
                 ContentDisposition = ContentDisposition.Inline,
+                OnBuildFileSuccess = async (bytes, context, fileName) =>
+                {
+                    // some code done.
+                    return true;
+
+                    // example.
+                    if (string.IsNullOrEmpty(fileName))
+                        fileName = $"{Guid.NewGuid()}.pdf";
+
+                    var container = CloudStorageAccount
+                        .Parse(connectionString:null) // Please set your value.If it's null, it will result in an ArgumentNullException().
+                        .CreateCloudBlobClient()
+                        .GetContainerReference(containerName:null); // Please set your value.If it's null, it will result in an ArgumentNullException().
+
+                    try
+                    {
+                        var blockBlob = container.GetBlockBlobReference(fileName);
+                        blockBlob.Properties.ContentType = "application/pdf";
+                        await blockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
+                    }
+                    catch (Exception e)
+                    {
+                        // logging.
+                        return false;  // fire InvalidOperationException()
+                    }
+
+                    return true;
+                },
             };
         }
 
