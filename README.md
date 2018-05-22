@@ -1,7 +1,55 @@
-Extremely easy way to create Pdf files from ASP.NET Core.
+Extremely easy way to create Pdf files from ASP.NET Core
 =========================================================
 
-Usage:
+New Features
+------
+
+* Support new event. `OnBuildFileSuccess()`
+
+```csharp
+        public ActionResult TestInlie()
+        {
+            return new ActionAsPdf("Index", new { name = "Friends" })
+            {
+                //FileName = "Test.pdf",
+                ContentDisposition = ContentDisposition.Inline,
+                OnBuildFileSuccess = async (bytes, context, fileName) =>
+                {
+                    // some code done.
+                    return true;
+
+                    // example.
+                    if (string.IsNullOrEmpty(fileName))
+                        fileName = $"{Guid.NewGuid()}.pdf";
+
+                    var container = CloudStorageAccount
+                         // Please set your value.
+                         // If it's null, it will result in an ArgumentNullException().
+                        .Parse(connectionString:null)
+                        .CreateCloudBlobClient()
+                        // Please set your value.
+                        // If it's null, it will result in an ArgumentNullException().
+                        .GetContainerReference(containerName:null);
+
+                    try
+                    {
+                        var blockBlob = container.GetBlockBlobReference(fileName);
+                        blockBlob.Properties.ContentType = "application/pdf";
+                        await blockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
+                    }
+                    catch (Exception e)
+                    {
+                        // logging.
+                        return false;  // fire InvalidOperationException()
+                    }
+
+                    return true;
+                },
+            };
+        }
+```
+
+Usage
 ------
 
 ```csharp
@@ -17,7 +65,9 @@ public ActionResult Index(string name)
     return View();
 }
 ```
+
 ViewAsPdf now available. It enables you to render a view as pdf in just one move, thanks to scoorf
+
 ```csharp
 public ActionResult TestViewWithModel(string id)
 {
@@ -25,6 +75,7 @@ public ActionResult TestViewWithModel(string id)
     return new ViewAsPdf(model);
 }
 ```
+
 Also available a RouteAsPdf, UrlAsPdf and ViewAsPdf ActionResult.
 
 It generates Pdf also from authorized actions (web forms authentication).
