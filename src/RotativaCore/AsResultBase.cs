@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -123,6 +124,15 @@ namespace RotativaCore
         /// </summary>
         public ContentDisposition ContentDisposition { get; set; }
 
+
+        /// <summary>
+        /// If you want to save the generated binary file to an external source such as Azure BLOB, please use this.
+        /// Please return true to continue processing, false to drop with error.
+        /// </summary>
+        public Func<byte[], ActionContext,string, Task<bool>> OnBuildFileSuccess { get; set; } = async (byteArray, applicationContext, fileName) => true;
+
+
+
         protected abstract string GetUrl(ActionContext  context);
 
         /// <summary>
@@ -219,9 +229,11 @@ namespace RotativaCore
             var fileContent = CallTheDriver(context);
 
             if (string.IsNullOrEmpty(SaveOnServerPath) == false)
-            {
                 File.WriteAllBytes(SaveOnServerPath, fileContent);
-            }
+
+
+            if (!OnBuildFileSuccess?.Invoke(fileContent, context, FileName).Result ?? true)
+                throw new InvalidOperationException($"{nameof(OnBuildFileSuccess)} returned false.");
 
             return fileContent;
         }
@@ -238,7 +250,7 @@ namespace RotativaCore
         private static string SanitizeFileName(string name)
         {
             var invalidChars = Regex.Escape(new string(Path.GetInvalidPathChars()) + new string(Path.GetInvalidFileNameChars()));
-            var invalidCharsPattern = string.Format(@"[{0}]+", invalidChars);
+            var invalidCharsPattern = $@"[{invalidChars}]+";
 
             var result = Regex.Replace(name, invalidCharsPattern, "_");
             return result;
