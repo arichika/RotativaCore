@@ -16,7 +16,7 @@ namespace RotativaCore.SampleWebApplication.Controllers
     {
         public ActionResult Index(string name = "World")
         {
-            ViewBag.Message = string.Format("Hello {0}, Welcome to ASP.NET Core!", name);
+            ViewBag.Message = $"Hello {name}, Welcome to ASP.NET Core!";
 
             return View();
         }
@@ -124,7 +124,7 @@ namespace RotativaCore.SampleWebApplication.Controllers
 
             // Probably the biggest advantage of this approach is that you have Session object available.
 
-            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", "Super Great Friends");
+            ViewBag.Message = "Hello Super Great Friends to ASP.NET Core!";
             return new ViewAsPdf("Index")
             {
                 FileName = "TestView.pdf",
@@ -143,7 +143,7 @@ namespace RotativaCore.SampleWebApplication.Controllers
 
             // Probably the biggest advantage of this approach is that you have Session object available.
 
-            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", "Super Great Friends");
+            ViewBag.Message = "Hello Super Great Friends to ASP.NET Core!";
             return new ViewAsImage("Index")
             {
                 FileName = "TestViewImage.png",

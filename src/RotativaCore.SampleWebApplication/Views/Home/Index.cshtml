@@ -6,6 +6,8 @@
 
 <h2>@ViewBag.Message</h2>
 
+<hr class="hr-color-blue" />
+
 <div style="margin-bottom: 12px;">
     <ul>
         <li>@Html.ActionLink("Home", "Index", new { name = "Friends" })</li>
@@ -26,15 +28,16 @@
         <li>@Html.ActionLink("Binary Test", "BinaryTest", "Home", null, null, null, null, null)</li>
         <li>@Html.ActionLink("Ajax Test", "Index", "AjaxTests", null, null, null, null, null)</li>
         <li>@Html.ActionLink("Ajax Image Test", "IndexImage", "AjaxTests", null, null, null, null, null)</li>
-        <li>@Html.ActionLink("External CSS Test", "Index", "CssTests", null, null, null, null, null)</li>
-        <li>@Html.ActionLink("External CSS Test Image", "IndexImage", "CssTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Include In-Site CSS file Test Normal View ", "InSiteCSSIndex", "CssTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Include In-Site CSS file Test as PDF", "InSiteCSSIndexAsPdf", "CssTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Include In-Site CSS file Test as Image", "InSiteCSSIndexAsImage", "CssTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Include Ext-Site CSS file Test Normal View ", "ExtSiteCSSIndex", "CssTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Include Ext-Site CSS file Test as PDF", "ExtSiteCSSIndexAsPdf", "CssTests", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Include Ext-Site CSS file Test as Image", "ExtSiteCSSIndexAsImage", "CssTests", null, null, null, null, null)</li>
     </ul>
-
 </div>
 
-<div style="margin-bottom: 12px;">
-    Some text with non ascii char àéù
-</div>
+<hr class="hr-color-red" />
 
 <div style="margin-bottom: 12px;">
     @foreach (var e in Context.Request.Headers)
@@ -42,6 +45,15 @@
         <span>@(e.Key)</span><span> = </span><span>@(e.Value.ToString())</span><br />
     }
 </div>
+
+<hr class="hr-color-blue" />
+
+<div style="margin-bottom: 12px;">
+    Some text with non ascii char àéù<br />
+    Some text with non ascii char àéù<br />
+</div>
+
+<hr class="hr-color-red" />
 
 <div style="margin-bottom: 12px;">
     <script type="text/javascript">
@@ -51,6 +63,8 @@
         document.writeln('<span>windowHeight<span> = </span><span>' + windowHeight + '</span><br />');
     </script>
 </div>
+
+<hr class="hr-color-blue" />
 
 <div style="margin-bottom: 12px;">
     <p>日本語テキスト 12345 １２３４５ 全角　半角 日本語 𩸽 ｶﾀｶﾅ 𩸽</p>
