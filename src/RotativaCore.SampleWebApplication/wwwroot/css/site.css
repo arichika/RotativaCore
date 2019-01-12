@@ -26,6 +26,19 @@
     margin: 15px;
 }
 
+/* for tests */
+.hr-color-red {
+    border-color: red;
+    height: 3px;
+}
+
+/* for tests */
+.hr-color-blue {
+    border-color: blue;
+    height: 3px;
+}
+
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
