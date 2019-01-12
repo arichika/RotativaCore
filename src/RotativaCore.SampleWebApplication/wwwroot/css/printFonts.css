@@ -53,3 +53,20 @@
     font-family: "ＭＳ 明朝","MS Mincho",Selif;
     font-weight: 400;
 }
+
+
+/* for tests */
+.hr-color-red {
+    border-color: red;
+    height: 3px;
+}
+
+.hr-color-blue {
+    border-color: blue;
+    height: 3px;
+}
+
+#cssRevealedContent {
+    font-size: 32pt;
+    color: blueviolet;
+}
