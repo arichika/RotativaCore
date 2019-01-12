@@ -1,15 +1,19 @@
+https://wkhtmltopdf.org/downloads.html
+https://github.com/wkhtmltopdf/wkhtmltopdf/releases
+
 Name:
-  wkhtmltoimage 0.12.2.1 (with patched qt)
+  wkhtmltoimage 0.12.5 (with patched qt)
 
 Synopsis:
   wkhtmltoimage [OPTIONS]... <input file> <output file>
-  
+
 Description:
-  Converts an HTML page into an image, 
+  Converts an HTML page into an image,
 
 General Options:
       --allow <path>                  Allow the file or files from the specified
                                       folder to be loaded (repeatable)
+      --bypass-proxy-for <value>      Bypass proxy for host (repeatable)
       --cache-dir <path>              Web cache directory
       --checkbox-checked-svg <path>   Use this SVG file when rendering checked
                                       checkboxes
@@ -58,6 +62,8 @@ General Options:
                                       explicitly allowed with --allow
       --enable-local-file-access      Allowed conversion of a local file to read
                                       in other local files. (default)
+      --log-level <level>             Set log level to: none, error, warn or
+                                      info (default info)
       --manpage                       Output program man page
       --minimum-font-size <int>       Minimum font size
       --password <password>           HTTP Authentication password
@@ -67,9 +73,12 @@ General Options:
       --post <name> <value>           Add an additional post field (repeatable)
       --post-file <name> <path>       Post an additional file (repeatable)
   -p, --proxy <proxy>                 Use a proxy
+      --proxy-hostname-lookup         Use the proxy for resolving hostnames
       --quality <int>                 Output image quality (between 0 and 100)
                                       (default 94)
-  -q, --quiet                         Be less verbose
+  -q, --quiet                         Be less verbose, maintained for backwards
+                                      compatibility; Same as using --log-level
+                                      none
       --radiobutton-checked-svg <path> Use this SVG file when rendering checked
                                       radiobuttons
       --radiobutton-svg <path>        Use this SVG file when rendering unchecked
@@ -81,6 +90,12 @@ General Options:
                                       large enough for the content
       --enable-smart-width            Extend --width to fit unbreakable content
                                       (default)
+      --ssl-crt-path <path>           Path to the ssl client cert public key in
+                                      OpenSSL PEM format, optionally followed by
+                                      intermediate ca and trusted certs
+      --ssl-key-password <password>   Password to ssl client cert private key
+      --ssl-key-path <path>           Path to ssl client cert private key in
+                                      OpenSSL PEM format
       --stop-slow-scripts             Stop slow running javascripts (default)
       --no-stop-slow-scripts          Do not Stop slow running javascripts
       --transparent                   Make the background transparent in pngs
@@ -104,14 +119,15 @@ Specifying A Proxy:
   <type> := "http://" | "socks5://"
   <serif> := <username> (":" <password>)? "@"
   <proxy> := "None" | <type>? <string>? <host> (":" <port>)?
-  
+
   Here are some examples (In case you are unfamiliar with the BNF):
 
   http://user:password@myproxyserver:8080
   socks5://myproxyserver
   None
-  
+
 Contact:
-  If you experience bugs or want to request new features please visit 
+  If you experience bugs or want to request new features please visit
   <https://github.com/wkhtmltopdf/wkhtmltopdf/issues>
 
+//
