@@ -244,7 +244,7 @@ namespace RotativaCore
 
             var response = PrepareResponse(context.HttpContext.Response);
 
-            response.Body.Write(fileContent, 0, fileContent.Length);
+            response.Body.WriteAsync(fileContent, 0, fileContent.Length);
         }
 
         private static string SanitizeFileName(string name)
