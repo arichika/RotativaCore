@@ -8,8 +8,7 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using RotativaCore;
-using RotativaCore.SampleWebApplication.Controllers;
-using RotativaCore.WebTests;
+using RotativaCore.SampleWebApp._2._0.Controllers;
 using SharpTestsEx;
 
 
