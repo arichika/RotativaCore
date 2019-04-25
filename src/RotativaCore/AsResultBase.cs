@@ -125,11 +125,13 @@ namespace RotativaCore
         public ContentDisposition ContentDisposition { get; set; }
 
 
+#pragma warning disable CS1998
         /// <summary>
         /// If you want to save the generated binary file to an external source such as Azure BLOB, please use this.
         /// Please return true to continue processing, false to drop with error.
         /// </summary>
-        public Func<byte[], ActionContext,string, Task<bool>> OnBuildFileSuccess { get; set; } = async (byteArray, applicationContext, fileName) => true;
+        public Func<byte[], ActionContext, string, Task<bool>> OnBuildFileSuccess { get; set; } = async (byteArray, applicationContext, fileName) => true;
+#pragma warning restore CS1998
 
 
 
