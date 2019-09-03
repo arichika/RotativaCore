@@ -1,8 +1,11 @@
-﻿namespace RotativaCore
+﻿using System.Runtime.InteropServices;
+
+namespace RotativaCore
 {
     public class WkhtmltoimageDriver : WkhtmlDriver
     {
-        private const string wkhtmlExe = "wkhtmltoimage.exe";
+        private static readonly string wkhtmlExe =
+            RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "wkhtmltoimage.exe" : "wkhtmltoimage";
 
         /// <summary>
         /// Converts given HTML string to PDF.
