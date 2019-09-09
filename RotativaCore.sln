@@ -21,7 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample.Winodws", "Sample.Wi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample.Linux", "Sample.Linux", "{D9032CC0-7CB3-4429-B9A3-87D73B86BE3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotativaCore.SampleWebApp.3.0.Linux", "src\RotativaCore.SampleWebApp.3.0.Linux\RotativaCore.SampleWebApp.3.0.Linux.csproj", "{8449481C-CDB9-421C-88C2-E1128EB1A63F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.SampleWebApp.3.0.Linux", "src\RotativaCore.SampleWebApp.3.0.Linux\RotativaCore.SampleWebApp.3.0.Linux.csproj", "{8449481C-CDB9-421C-88C2-E1128EB1A63F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0100AC07-DC3C-4E3A-B8AE-8812082FBA92}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -17,25 +17,4 @@
     <ProjectReference Include="..\RotativaCore\RotativaCore.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="WkHtmlToPdf\libwkhtmltox.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="WkHtmlToPdf\libwkhtmltox.so.0">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="WkHtmlToPdf\libwkhtmltox.so.0.12">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="WkHtmlToPdf\libwkhtmltox.so.0.12.3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="WkHtmlToPdf\wkhtmltoimage">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="WkHtmlToPdf\wkhtmltopdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

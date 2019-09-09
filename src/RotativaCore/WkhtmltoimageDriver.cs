@@ -4,7 +4,7 @@ namespace RotativaCore
 {
     public class WkhtmltoimageDriver : WkhtmlDriver
     {
-        private static readonly string wkhtmlExe =
+        private static readonly string wkhtmlBin =
             RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "wkhtmltoimage.exe" : "wkhtmltoimage";
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace RotativaCore
         /// <returns>PDF as byte array.</returns>
         public static byte[] ConvertHtml(string wkhtmltopdfPath, string switches, string html)
         {
-            return Convert(wkhtmltopdfPath, switches, html, wkhtmlExe);
+            return Convert(wkhtmltopdfPath, switches, html, wkhtmlBin);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace RotativaCore
         /// <returns>PDF as byte array.</returns>
         public static byte[] Convert(string wkhtmltopdfPath, string switches)
         {
-            return Convert(wkhtmltopdfPath, switches, null, wkhtmlExe);
+            return Convert(wkhtmltopdfPath, switches, null, wkhtmlBin);
         }
     }
 }

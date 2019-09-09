@@ -13,9 +13,9 @@ namespace RotativaCore
         /// <param name="wkhtmlPath">Path to wkthmltopdf\wkthmltoimage.</param>
         /// <param name="switches">Switches that will be passed to wkhtmltopdf binary.</param>
         /// <param name="html">String containing HTML code that should be converted to PDF.</param>
-        /// <param name="wkhtmlExe"></param>
+        /// <param name="wkhtmlBin"></param>
         /// <returns>PDF as byte array.</returns>
-        protected static byte[] Convert(string wkhtmlPath, string switches, string html, string wkhtmlExe)
+        protected static byte[] Convert(string wkhtmlPath, string switches, string html, string wkhtmlBin)
         {
             // switches:
             //     "-q"  - silent output, only errors - no progress messages
@@ -34,7 +34,7 @@ namespace RotativaCore
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = Path.Combine(wkhtmlPath, wkhtmlExe),
+                    FileName = Path.Combine(wkhtmlPath, wkhtmlBin),
                     Arguments = switches,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,

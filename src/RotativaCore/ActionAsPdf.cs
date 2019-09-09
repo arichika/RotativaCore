@@ -51,9 +51,11 @@ namespace RotativaCore
             }
 
             var currentUri = new Uri(context.HttpContext.Request.GetDisplayUrl());
+
             var authority = currentUri.GetComponents(UriComponents.StrongAuthority, UriFormat.Unescaped);
 
-            var url = string.Format("{0}://{1}{2}", context.HttpContext.Request.Scheme, authority, actionUrl);
+            var url = $"{context.HttpContext.Request.Scheme}://{authority}{actionUrl}";
+
             return url;
         }
     }
