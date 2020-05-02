@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace RotativaCore.SampleWebApp._3._0
+namespace RotativaCore.SampleWebApp._3._1
 {
     public class Program
     {

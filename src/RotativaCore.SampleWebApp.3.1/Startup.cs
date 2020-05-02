@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace RotativaCore.SampleWebApp._3._0
+namespace RotativaCore.SampleWebApp._3._1
 {
     public class Startup
     {

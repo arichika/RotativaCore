@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.WindowsAzure.Storage;
 using RotativaCore.Options;
-using RotativaCore.SampleWebApp._3._0.Models;
+using RotativaCore.SampleWebApp._3._1.Models;
 
-namespace RotativaCore.SampleWebApp._3._0.Controllers
+namespace RotativaCore.SampleWebApp._3._1.Controllers
 {
     public class HomeController : Controller
     {

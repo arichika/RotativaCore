@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RotativaCore.SampleWebApp._3._0.Controllers
+namespace RotativaCore.SampleWebApp._3._1.Controllers
 {
     public class AjaxTestsController : Controller
     {

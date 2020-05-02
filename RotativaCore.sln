@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.WebTests", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.UnitTests", "src\RotativaCore.UnitTests\RotativaCore.UnitTests.csproj", "{43F6E4B1-436D-4D1C-BDED-3FA05255656C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.SampleWebApp.3.0", "src\RotativaCore.SampleWebApp.3.0\RotativaCore.SampleWebApp.3.0.csproj", "{1AAF8B2C-F313-46FB-87C6-7B6DF53A4727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.SampleWebApp.3.1", "src\RotativaCore.SampleWebApp.3.1\RotativaCore.SampleWebApp.3.1.csproj", "{1AAF8B2C-F313-46FB-87C6-7B6DF53A4727}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
