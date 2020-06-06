@@ -1,8 +1,11 @@
-﻿namespace RotativaCore
+﻿using System.Runtime.InteropServices;
+
+namespace RotativaCore
 {
     public class WkhtmltoimageDriver : WkhtmlDriver
     {
-        private const string wkhtmlExe = "wkhtmltoimage.exe";
+        private static readonly string wkhtmlBin =
+            RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "wkhtmltoimage.exe" : "wkhtmltoimage";
 
         /// <summary>
         /// Converts given HTML string to PDF.
@@ -13,7 +16,7 @@
         /// <returns>PDF as byte array.</returns>
         public static byte[] ConvertHtml(string wkhtmltopdfPath, string switches, string html)
         {
-            return Convert(wkhtmltopdfPath, switches, html, wkhtmlExe);
+            return Convert(wkhtmltopdfPath, switches, html, wkhtmlBin);
         }
 
         /// <summary>
@@ -24,7 +27,7 @@
         /// <returns>PDF as byte array.</returns>
         public static byte[] Convert(string wkhtmltopdfPath, string switches)
         {
-            return Convert(wkhtmltopdfPath, switches, null, wkhtmlExe);
+            return Convert(wkhtmltopdfPath, switches, null, wkhtmlBin);
         }
     }
 }
