@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,21 @@ namespace RotativaCore.SampleWebApp._3._0.Controllers
             {
                 //FileName = "Test.pdf",
                 ContentDisposition = ContentDisposition.Inline,
+                TryCustomizeAsync = async (stream, context, fineName) =>
+                {
+                    // some code done.
+                    return true;
+
+                    // e.g.
+                    var customizeStream = new MemoryStream();
+                    await stream.CopyToAsync(customizeStream);
+
+                    // ...
+                    stream.SetLength(0);
+                    await customizeStream.CopyToAsync(stream);
+
+                    return true;
+                },
                 OnBuildFileSuccess = async (bytes, context, fileName) =>
                 {
                     // some code done.
