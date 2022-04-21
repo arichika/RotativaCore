@@ -116,13 +116,20 @@ namespace RotativaCore
         public string CustomSwitches { get; set; }
 
 
-        [Obsolete(@"Use BuildFile(ActionContext) method instead and use the resulting binary data to do what needed.")]
-        public string SaveOnServerPath { get; set; }
-
         /// <summary>
         /// Set 'Content-Disposition' Response Header. If you set 'FileName', this value is ignored and "attachment" is forced.
         /// </summary>
         public ContentDisposition ContentDisposition { get; set; }
+
+
+
+#pragma warning disable CS1998
+        /// <summary>
+        /// If you want to customize the generated binary file before `OnBuildFileSuccess`, use this.
+        /// Please return true to continue processing, false to drop with error.
+        /// </summary>
+        public Func<Stream, ActionContext, string, Task<bool>> TryCustomizeAsync { get; set; } = async (stream, applicationContext, fileName) => true;
+#pragma warning restore CS1998
 
 
 #pragma warning disable CS1998
@@ -130,7 +137,7 @@ namespace RotativaCore
         /// If you want to save the generated binary file to an external source such as Azure BLOB, please use this.
         /// Please return true to continue processing, false to drop with error.
         /// </summary>
-        public Func<byte[], ActionContext, string, Task<bool>> OnBuildFileSuccess { get; set; } = async (byteArray, applicationContext, fileName) => true;
+        public Func<byte[], ActionContext, string, Task<bool>> OnBuildFileSuccess { get; set; } = async (stream, applicationContext, fileName) => true;
 #pragma warning restore CS1998
 
 
@@ -221,24 +228,55 @@ namespace RotativaCore
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            if (WkhtmlPath == string.Empty)
-            {
-                var location = Assembly.GetEntryAssembly().Location;
-                var directory = Path.GetDirectoryName(location);
-                WkhtmlPath = Path.Combine(directory, "WkHtmlToPdf");
-            }
+            SetupWkhtmlPath();
 
             var fileContent = CallTheDriver(context);
 
-            if (string.IsNullOrEmpty(SaveOnServerPath) == false)
-                File.WriteAllBytes(SaveOnServerPath, fileContent);
+            var pdfStream = new MemoryStream();
 
+            pdfStream.Write(fileContent, 0, fileContent.Length);
 
-            if (!OnBuildFileSuccess?.Invoke(fileContent, context, FileName).Result ?? true)
+            if (!TryCustomizeAsync?.Invoke(pdfStream, context, FileName).Result ?? true)
+                throw new InvalidOperationException($"{nameof(TryCustomizeAsync)} returned false.");
+
+            if (!OnBuildFileSuccess?.Invoke(pdfStream.ToArray(), context, FileName).Result ?? true)
                 throw new InvalidOperationException($"{nameof(OnBuildFileSuccess)} returned false.");
 
-            return fileContent;
+            return pdfStream.ToArray();
         }
+
+        public async Task<Stream> BuildFileAsync(ActionContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            SetupWkhtmlPath();
+
+            var fileContent = CallTheDriver(context);
+
+            var pdfStream = new MemoryStream();
+
+            await pdfStream.WriteAsync(fileContent, 0, fileContent.Length);
+
+            if (TryCustomizeAsync != null && !await TryCustomizeAsync.Invoke(pdfStream, context, FileName))
+                throw new InvalidOperationException($"{nameof(TryCustomizeAsync)} returned false.");
+
+            if (OnBuildFileSuccess != null && !await OnBuildFileSuccess.Invoke(pdfStream.ToArray(), context, FileName))
+                throw new InvalidOperationException($"{nameof(OnBuildFileSuccess)} returned false.");
+
+            return pdfStream;
+        }
+
+        private void SetupWkhtmlPath()
+        {
+            if (WkhtmlPath == string.Empty)
+            {
+                var location = Assembly.GetEntryAssembly()?.Location;
+                var directory = Path.GetDirectoryName(location);
+                WkhtmlPath = Path.Combine(directory, "WkHtmlToPdf");
+            }
+        }
+
 
         public override void ExecuteResult(ActionContext context)
         {
@@ -248,6 +286,18 @@ namespace RotativaCore
 
             response.Body.WriteAsync(fileContent, 0, fileContent.Length);
         }
+
+        public override async Task ExecuteResultAsync(ActionContext context)
+        {
+            var fileContentStream = await BuildFileAsync(context);
+
+            var response = PrepareResponse(context.HttpContext.Response);
+
+            fileContentStream.Position = 0;
+
+            await fileContentStream.CopyToAsync(response.Body);
+        }
+
 
         private static string SanitizeFileName(string name)
         {

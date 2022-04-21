@@ -4,6 +4,10 @@ Extremely easy way to create Pdf files from ASP.NET Core
 New Features
 ------
 
+### 4.0.0
+
+* Support new delegate. `TryCustomizeAsync()`
+
 ### 3.0.0
 
 * Support ASP.NET Core 3.0.  Thank you [@vertonghenb](https://github.com/vertonghenb)
