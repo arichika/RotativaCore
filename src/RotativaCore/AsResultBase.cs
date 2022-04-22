@@ -125,7 +125,7 @@ namespace RotativaCore
 
 #pragma warning disable CS1998
         /// <summary>
-        /// If you want to customize the generated binary file before `OnBuildFileSuccess`, use this.
+        /// If you want to customize the generated binary file before `OnBuildFileSuccess()`, use this.
         /// Please return true to continue processing, false to drop with error.
         /// </summary>
         public Func<Stream, ActionContext, string, Task<bool>> TryCustomizeAsync { get; set; } = async (stream, applicationContext, fileName) => true;

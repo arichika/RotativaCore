@@ -26,8 +26,7 @@
     <Description>Convert HTML to PDF by WkHtmlToPdf for ASP.NET Core on Azure Web Apps (Windows).  Forked from Rotativa. Target for .NETStandard 2.0.</Description>
     <Copyright>MIT</Copyright>
     <PackageTags>netcore;aspnetcore;pdf;wkhtmltopdf;</PackageTags>
-    <PackageReleaseNotes>This is the initial version of the port and "Preview Release".  It is not fully tested.
-Support new event. OnBuildFileSuccess Func&lt;T&gt;. For example, use this event to save the PDF to BLOB.</PackageReleaseNotes>
+    <PackageReleaseNotes>This is beta software always.  It is not fully tested.</PackageReleaseNotes>
 
     <PackageProjectUrl>https://github.com/arichika/RotativaCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/arichika/RotativaCore</RepositoryUrl>

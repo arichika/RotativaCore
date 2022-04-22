@@ -6,7 +6,36 @@ New Features
 
 ### 4.0.0
 
+* Property `SaveOnServerPath` is discontinued.
 * Support new delegate. `TryCustomizeAsync()`
+  * If you want to customize the generated binary file before `OnBuildFileSuccess()`, use this.
+  * Please return true to continue processing, false to drop with error.
+
+```csharp
+        public ActionResult TestInlie()
+        {
+            return new ActionAsPdf("Index")
+            {
+                ContentDisposition = ContentDisposition.Inline,
+                TryCustomizeAsync = async (stream, context, fineName) =>
+                {
+                    // some code done.
+                    return true;
+
+                    // e.g.
+                    var customizeStream = new MemoryStream();
+                    await stream.CopyToAsync(customizeStream);
+
+                    // ...
+                    stream.SetLength(0);
+                    await customizeStream.CopyToAsync(stream);
+
+                    return true;
+                },
+            };
+        }
+```
+
 
 ### 3.0.0
 
