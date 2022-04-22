@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.202
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{053EF92D-D564-4D29-8554-9422F330640C}"
 EndProject
@@ -16,6 +16,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.UnitTests", "src\RotativaCore.UnitTests\RotativaCore.UnitTests.csproj", "{43F6E4B1-436D-4D1C-BDED-3FA05255656C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.SampleWebApp.3.0", "src\RotativaCore.SampleWebApp.3.0\RotativaCore.SampleWebApp.3.0.csproj", "{1AAF8B2C-F313-46FB-87C6-7B6DF53A4727}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86815082-22AE-43B1-8816-187A9BC49B2C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
