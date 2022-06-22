@@ -9,7 +9,7 @@
 <div style="margin-bottom: 12px;">
     <ul>
         <li>@Html.ActionLink("Home", "Index", new { name = "Friends" })</li>
-        <li>@Html.ActionLink("Test PDF Inline", "TestInlie", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("Test PDF Inline", "TestInline", "Home", null, null, null, null, null)</li>
         <li>@Html.ActionLink("Test PDF Attachment (with A4 Landscape DisableSmartShrinkingViewPortSize1024)", "TestAttachmentWithA4LandscapeDisableSmartShrinkingViewPortSize1024", "Home", null, null, null, null, null)</li>
         <li>@Html.ActionLink("Test Image", "TestImage", "Home", null, null, null, null, null)</li>
         <li>@Html.ActionLink("Test Image Png", "TestImagePng", "Home", null, null, null, null, null)</li>
@@ -28,8 +28,13 @@
         <li>@Html.ActionLink("Ajax Image Test", "IndexImage", "AjaxTests", null, null, null, null, null)</li>
         <li>@Html.ActionLink("External CSS Test", "Index", "CssTests", null, null, null, null, null)</li>
         <li>@Html.ActionLink("External CSS Test Image", "IndexImage", "CssTests", null, null, null, null, null)</li>
-    </ul>
 
+        <li>@Html.ActionLink("No Content Test PDF Inline", "TestEmptyContentActionAsPdfInline", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("No Content Test PDF Attachment", "TestEmptyContentActionAsPdfAttachment", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("No Content Test Image Inline", "TestEmptyContentActionAsImageInline", "Home", null, null, null, null, null)</li>
+        <li>@Html.ActionLink("No Content Test Image Attachment", "TestEmptyContentActionAsImageAttachment", "Home", null, null, null, null, null)</li>
+
+    </ul>
 </div>
 
 <div style="margin-bottom: 12px;">

@@ -8,6 +8,6 @@ namespace RotativaCore.WebTests
 {
     public static class TestConst
     {
-        public const string RotativaDemoUrl = "http://localhost:53793/";
+        public const string RotativaDemoUrl = "https://localhost:5001/";
     }
 }

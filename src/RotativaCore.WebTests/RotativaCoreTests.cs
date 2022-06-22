@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using SharpTestsEx;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using Xunit;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using SharpTestsEx;
 using Xunit.Abstractions;
 
 namespace RotativaCore.WebTests
@@ -33,13 +28,13 @@ namespace RotativaCore.WebTests
         [Fact]
         public void Is_the_site_reachable()
         {
-            Assert.Equal("Home Page", _selenium.Title);
+            Assert.StartsWith("Home Page", _selenium.Title);
         }
         
         [Fact]
         public void Can_print_the_test_pdf()
         {
-            var testLink = _selenium.FindElement(By.LinkText("Test"));
+            var testLink = _selenium.FindElement(By.LinkText("Test PDF Inline"));
             var pdfHref = testLink.GetAttribute("href");
             using (var wc = new WebClient())
             {
@@ -47,7 +42,7 @@ namespace RotativaCore.WebTests
                 var pdfTester = new PdfTester(_output);
                 pdfTester.LoadPdf(pdfResult);
                 pdfTester.PdfIsValid.Should().Be.True();
-                pdfTester.PdfContains("RotativaCore.SampleWebApplication").Should().Be.True();
+                pdfTester.PdfContains("RotativaCore.SampleWebApp._3._0").Should().Be.True();
             }
         }
 

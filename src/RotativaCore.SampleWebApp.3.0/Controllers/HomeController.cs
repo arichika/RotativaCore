@@ -19,6 +19,12 @@ namespace RotativaCore.SampleWebApp._3._0.Controllers
             return View();
         }
 
+        public IActionResult EmptyContent()
+        {
+            return NoContent();
+        }
+
+
         public IActionResult Privacy()
         {
             return View();
@@ -31,7 +37,7 @@ namespace RotativaCore.SampleWebApp._3._0.Controllers
         }
 
 
-        public IActionResult TestInlie()
+        public IActionResult TestInline()
         {
             return new ActionAsPdf("Index")
             {
@@ -83,6 +89,58 @@ namespace RotativaCore.SampleWebApp._3._0.Controllers
             };
         }
 
+
+        public async Task<IActionResult> TestEmptyContentActionAsPdfInline()
+        {
+            return new ActionAsPdf("EmptyContent")
+            {
+                // FileName = "TestEmptyContent.pdf", // because "Inline"
+                ContentDisposition = ContentDisposition.Inline,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
+
+        public async Task<IActionResult> TestEmptyContentActionAsPdfAttachment()
+        {
+            return new ActionAsPdf("EmptyContent")
+            {
+                FileName = "TestEmptyContent.pdf",
+                ContentDisposition = ContentDisposition.Attachment,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
+
+        public async Task<IActionResult> TestEmptyContentActionAsImageInline()
+        {
+            return new ActionAsImage("EmptyContent")
+            {
+                // FileName = "TestEmptyContent.png",, // because "Inline"
+                ContentDisposition = ContentDisposition.Inline,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
+
+        public async Task<IActionResult> TestEmptyContentActionAsImageAttachment()
+        {
+            return new ActionAsImage("EmptyContent")
+            {
+                FileName = "TestEmptyContent.png",
+                ContentDisposition = ContentDisposition.Attachment,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
 
         public ActionResult TestAttachmentWithA4LandscapeDisableSmartShrinkingViewPortSize1024()
         {

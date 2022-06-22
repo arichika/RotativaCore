@@ -25,7 +25,7 @@ namespace RotativaCore
         }
 
         /// <summary>
-        /// This will be send to the browser as a name of the generated PDF file.
+        /// This will be send to the browser as a name of the generated PDF or Image file.
         /// </summary>
         public string FileName { get; set; }
 
@@ -123,22 +123,31 @@ namespace RotativaCore
 
 
 
-#pragma warning disable CS1998
         /// <summary>
         /// If you want to customize the generated binary file before `OnBuildFileSuccess()`, use this.
         /// Please return true to continue processing, false to drop with error.
         /// </summary>
+#pragma warning disable CS1998
         public Func<Stream, ActionContext, string, Task<bool>> TryCustomizeAsync { get; set; } = async (stream, applicationContext, fileName) => true;
 #pragma warning restore CS1998
 
 
-#pragma warning disable CS1998
         /// <summary>
         /// If you want to save the generated binary file to an external source such as Azure BLOB, please use this.
         /// Please return true to continue processing, false to drop with error.
         /// </summary>
+#pragma warning disable CS1998
         public Func<byte[], ActionContext, string, Task<bool>> OnBuildFileSuccess { get; set; } = async (stream, applicationContext, fileName) => true;
 #pragma warning restore CS1998
+
+
+        /// <summary>
+        /// Specifies an alternative process in the case of an empty content response
+        /// from the conversion source or an error response (error response to standard output)
+        /// by wkhtmltopdf in converting an empty content.
+        /// When this process is called, `TryCustomizeAsync` and `OnBuildFileSuccess` are not executed.
+        /// </summary>
+        public Func<Exception, ActionContext, Task> OnNoContentAsync { get; set; } = null;
 
 
 
@@ -226,7 +235,7 @@ namespace RotativaCore
         public byte[] BuildFile(ActionContext  context)
         {
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             SetupWkhtmlPath();
 
@@ -248,7 +257,7 @@ namespace RotativaCore
         public async Task<Stream> BuildFileAsync(ActionContext context)
         {
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             SetupWkhtmlPath();
 
@@ -280,22 +289,58 @@ namespace RotativaCore
 
         public override void ExecuteResult(ActionContext context)
         {
-            var fileContent = BuildFile(context);
+            byte[] resultContent = null;
+            Exception exception = null;
+            try
+            {
+                resultContent = BuildFile(context);
+            }
+            catch (WkhtmlDriverException ex)
+            {
+                exception = ex;
+            }
 
-            var response = PrepareResponse(context.HttpContext.Response);
+            if (resultContent == null && OnNoContentAsync != null)
+            {
+                OnNoContentAsync.Invoke(exception, context).RunSynchronously();
+                return;
+            }
 
-            response.Body.WriteAsync(fileContent, 0, fileContent.Length);
+            var response = PrepareResponseForSuccess(context.HttpContext.Response);
+
+            if (resultContent != null)
+            {
+                response.Body.WriteAsync(resultContent, 0, resultContent.Length);
+            }
         }
+
 
         public override async Task ExecuteResultAsync(ActionContext context)
         {
-            var fileContentStream = await BuildFileAsync(context);
+            Stream resultContent = null;
+            Exception exception = null;
+            try
+            {
+                resultContent = await BuildFileAsync(context);
+            }
+            catch (WkhtmlDriverException ex)
+            {
+                exception = ex;
+            }
 
-            var response = PrepareResponse(context.HttpContext.Response);
+            if (resultContent == null && OnNoContentAsync != null)
+            {
+                await OnNoContentAsync.Invoke(exception, context);
+                return;
+            }
 
-            fileContentStream.Position = 0;
+            var response = PrepareResponseForSuccess(context.HttpContext.Response);
 
-            await fileContentStream.CopyToAsync(response.Body);
+            if (resultContent != null)
+            {
+                resultContent.Position = 0;
+                await resultContent.CopyToAsync(response.Body);
+            }
         }
 
 
@@ -308,7 +353,7 @@ namespace RotativaCore
             return result;
         }
 
-        protected HttpResponse  PrepareResponse(HttpResponse  response)
+        protected HttpResponse  PrepareResponseForSuccess(HttpResponse  response)
         {
             response.ContentType = GetContentType();
 
