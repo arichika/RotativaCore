@@ -50,7 +50,7 @@ namespace RotativaCore
         /// <summary>
         /// Sets the page height in mm.
         /// </summary>
-        /// <remarks>Has priority over <see cref="PageSize"/> but <see cref="PageWidth"/> has to be also specified.</remarks>
+        /// <remarks>Has priority over <see cref="PageHeight"/> but <see cref="PageWidth"/> has to be also specified.</remarks>
         [OptionFlag("--height")]
         public int? PageHeight { get; set; }
 
@@ -63,11 +63,9 @@ namespace RotativaCore
 
         protected override string GetContentType()
         {
-            var imageFormat = Format;
-            if (!imageFormat.HasValue)
-                imageFormat = ImageFormat.jpeg;
+            var imageFormat = Format ?? ImageFormat.jpeg;
 
-            return string.Format("image/{0}", imageFormat);
+            return $"image/{imageFormat}";
         }
     }
 }

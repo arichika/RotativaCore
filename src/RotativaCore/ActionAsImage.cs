@@ -13,7 +13,7 @@ namespace RotativaCore
         private object _routeValues;
         private string _action;
 
-        public ActionAsImage(string action)
+        public ActionAsImage(string action) : base()
         {
             _action = action;
         }
@@ -37,16 +37,23 @@ namespace RotativaCore
 
             string actionUrl;
             if (_routeValues == null)
+            {
                 actionUrl = urlHelper.Action(_action, _routeValuesDict);
+            }
             else if (_routeValues != null)
+            {
                 actionUrl = urlHelper.Action(_action, _routeValues);
+            }
             else
+            {
                 actionUrl = urlHelper.Action(_action);
+            }
 
             var currentUri = new Uri(context.HttpContext.Request.GetDisplayUrl());
             var authority = currentUri.GetComponents(UriComponents.StrongAuthority, UriFormat.Unescaped);
 
-            var url = string.Format("{0}://{1}{2}", context.HttpContext.Request.Scheme, authority, actionUrl);
-            return url;        }
+            var url = $"{context.HttpContext.Request.Scheme}://{authority}{actionUrl}";
+            return url;
+        }
     }
 }

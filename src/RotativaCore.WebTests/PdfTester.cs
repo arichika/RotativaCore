@@ -44,14 +44,15 @@ namespace RotativaCore.WebTests
 
         public bool PdfContains(string text)
         {
-            var buf = new StringBuilder();
+            // TODO: It is broken and needs to be fixed.
+
+            var stringsList = new List<string>();
 
             for (var page = 1; page <= pdfReader.NumberOfPages; page++)
             {
                 var streamBytes = pdfReader.GetPageContent(1);
                 var tokenizer = new PrTokeniser(new RandomAccessFileOrArray(streamBytes));
 
-                var stringsList = new List<string>();
                 while (tokenizer.NextToken())
                 {
                     if (tokenizer.TokenType == PrTokeniser.TK_STRING)
@@ -68,8 +69,8 @@ namespace RotativaCore.WebTests
 
             pdfReader.Close();
 
-            //if (stringsList.Contains(text))
-            //    eturn true;
+            if (stringsList.Contains(text))
+                return true;
 
             return false;
         }

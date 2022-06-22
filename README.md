@@ -4,6 +4,35 @@ Extremely easy way to create Pdf files from ASP.NET Core
 New Features
 ------
 
+### 4.1.0
+
+* Property `SaveOnServerPath` is discontinued.
+* Support new delegate. `OnNoContentAsync()`
+  * Specifies an alternative process in the case of an empty content response 
+    from the conversion source or an error response (error response to standard output) 
+    by wkhtmltopdf in converting an empty content.  
+  * Within this delegate, direct operations (e.g., redirection instructions) must be performed on the ActionContext.
+  * When this process is called, `TryCustomizeAsync` and `OnBuildFileSuccess` are not executed.
+  * To use this feature effectively, it is essential to return `wkhtmltoX` with NoContent, i.e., an empty rendering element (empty Body response). This is because `wkhtmltoX` will respond with an error condition on its standard output and exit. 
+  * To take advantage of this, I modified the internal processing so that `wkhtnmltoX` returns `WkhtmlDriverStandardErrorException` if `wkhtnmltoX` terminates abnormally and the return data is empty. If `OnNoContentAsync()` is defined in this case, this process is called because the converted data is always empty when this error is detected.
+  * If `OnNoContentAsync()` is not defined, there is no difference in behavior except that the thrown Exception is more detailed.
+
+```csharp
+        public async Task<IActionResult> TestEmptyContentActionAsPdfInline()
+        {
+            return new ActionAsPdf("EmptyContent")
+            {
+                ContentDisposition = ContentDisposition.Inline,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    // e.g.
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
+```
+
+
 ### 4.0.0
 
 * Property `SaveOnServerPath` is discontinued.

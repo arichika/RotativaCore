@@ -59,7 +59,7 @@ namespace RotativaCore
             {
                 using (var sOut = proc.StandardOutput.BaseStream)
                 {
-                    byte[] buffer = new byte[4096];
+                    var buffer = new byte[4096];
                     int read;
 
                     while ((read = sOut.Read(buffer, 0, buffer.Length)) > 0)
@@ -68,14 +68,14 @@ namespace RotativaCore
                     }
                 }
 
-                string error = proc.StandardError.ReadToEnd();
+                var error = proc.StandardError.ReadToEnd();
+
+                proc.WaitForExit();
 
                 if (ms.Length == 0)
                 {
-                    throw new Exception(error);
+                    throw new WkhtmlDriverStandardErrorException(error);
                 }
-
-                proc.WaitForExit();
 
                 return ms.ToArray();
             }

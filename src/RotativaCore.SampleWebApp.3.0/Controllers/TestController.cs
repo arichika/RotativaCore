@@ -13,9 +13,8 @@ namespace RotativaCore.SampleWebApp._3._0.Controllers
 
         public ActionResult Index(string name)
         {
-            ViewBag.Message = string.Format("Hello {0} to the test route!", name);
+            ViewBag.Message = $"Hello {name} to the test route!";
             return View();
         }
-
     }
 }
