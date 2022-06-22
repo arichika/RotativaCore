@@ -6,7 +6,6 @@ New Features
 
 ### 4.1.0
 
-* Property `SaveOnServerPath` is discontinued.
 * Support new delegate. `OnNoContentAsync()`
   * Specifies an alternative process in the case of an empty content response 
     from the conversion source or an error response (error response to standard output) 
