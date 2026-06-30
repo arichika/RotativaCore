@@ -184,6 +184,7 @@ namespace RotativaCore.WebTests
             var testLink = _selenium.FindElement(By.LinkText("Ajax Test"));
             var pdfHref = testLink.GetAttribute("href");
             const string content = "Hi there, this is content from a Ajax call.";
+
             var pdfResult = DownloadBytes(new Uri(pdfHref));
             var pdfTester = new PdfTester(_output);
             pdfTester.LoadPdf(pdfResult);
