@@ -24,9 +24,24 @@ namespace RotativaCore.WebTests
         {
             _output = output;
             _httpClient = new HttpClient();
-            _selenium = new ChromeDriver(AppContext.BaseDirectory);
+            _selenium = CreateChromeDriver();
             _selenium.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 10);
             _selenium.Navigate().GoToUrl(TestConst.RotativaDemoUrl);
+        }
+
+        private IWebDriver CreateChromeDriver()
+        {
+            var staleDriverPath = Path.Combine(AppContext.BaseDirectory, "chromedriver.exe");
+            if (File.Exists(staleDriverPath))
+            {
+                File.Delete(staleDriverPath);
+                _output.WriteLine($"Removed stale ChromeDriver: {staleDriverPath}");
+            }
+
+            var service = ChromeDriverService.CreateDefaultService();
+            service.HideCommandPromptWindow = true;
+
+            return new ChromeDriver(service, new ChromeOptions());
         }
 
         private byte[] DownloadBytes(Uri uri) =>
