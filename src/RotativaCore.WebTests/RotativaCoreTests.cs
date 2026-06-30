@@ -42,7 +42,7 @@ namespace RotativaCore.WebTests
                 var pdfTester = new PdfTester(_output);
                 pdfTester.LoadPdf(pdfResult);
                 pdfTester.PdfIsValid.Should().Be.True();
-                pdfTester.PdfContains("RotativaCore.SampleWebApp._3._0").Should().Be.True();
+                pdfTester.PdfContains("RotativaCore.SampleWebApp").Should().Be.True();
             }
         }
 

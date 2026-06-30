@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RotativaCore.SampleWebApp._3._0.Controllers
+namespace RotativaCore.SampleWebApp.Controllers
 {
     public class TestController : Controller
     {

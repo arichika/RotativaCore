@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E6F27EEE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.WebTests", "src\RotativaCore.WebTests\RotativaCore.WebTests.csproj", "{B13F4FB9-4C26-4957-98B0-568EC2578B88}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.SampleWebApp.3.0", "src\RotativaCore.SampleWebApp.3.0\RotativaCore.SampleWebApp.3.0.csproj", "{1AAF8B2C-F313-46FB-87C6-7B6DF53A4727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotativaCore.SampleWebApp", "src\RotativaCore.SampleWebApp\RotativaCore.SampleWebApp.csproj", "{1AAF8B2C-F313-46FB-87C6-7B6DF53A4727}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86815082-22AE-43B1-8816-187A9BC49B2C}"
 	ProjectSection(SolutionItems) = preProject
