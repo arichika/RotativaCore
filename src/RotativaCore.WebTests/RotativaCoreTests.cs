@@ -23,10 +23,24 @@ namespace RotativaCore.WebTests
         public RotativaCoreTests(ITestOutputHelper output)
         {
             _output = output;
-            _httpClient = new HttpClient();
-            _selenium = CreateChromeDriver();
-            _selenium.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 10);
-            _selenium.Navigate().GoToUrl(TestConst.RotativaDemoUrl);
+            var selenium = CreateChromeDriver();
+
+            try
+            {
+                selenium.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 10);
+                selenium.Navigate().GoToUrl(TestConst.RotativaDemoUrl);
+
+                _selenium = selenium;
+                _httpClient = new HttpClient
+                {
+                    Timeout = TimeSpan.FromSeconds(30)
+                };
+            }
+            catch
+            {
+                selenium.Dispose();
+                throw;
+            }
         }
 
         private IWebDriver CreateChromeDriver()
@@ -46,6 +60,15 @@ namespace RotativaCore.WebTests
 
         private byte[] DownloadBytes(Uri uri) =>
             _httpClient.GetByteArrayAsync(uri).GetAwaiter().GetResult();
+
+        private void AssertImageFormat(Uri uri, ImageFormat expectedFormat)
+        {
+            using var stream = new MemoryStream(DownloadBytes(uri));
+            using var image = Image.FromStream(stream);
+
+            image.Should().Not.Be.Null();
+            image.RawFormat.Should().Be.EqualTo(expectedFormat);
+        }
 
         [Fact]
         public void Is_the_site_reachable()
@@ -70,10 +93,7 @@ namespace RotativaCore.WebTests
         {
             var testLink = _selenium.FindElement(By.LinkText("Test Image"));
             var pdfHref = testLink.GetAttribute("href");
-            var imageResult = DownloadBytes(new Uri(pdfHref));
-            var image = Image.FromStream(new MemoryStream(imageResult));
-            image.Should().Not.Be.Null();
-            image.RawFormat.Should().Be.EqualTo(ImageFormat.Jpeg);
+            AssertImageFormat(new Uri(pdfHref), ImageFormat.Jpeg);
         }
 
         [Fact]
@@ -81,10 +101,7 @@ namespace RotativaCore.WebTests
         {
             var testLink = _selenium.FindElement(By.LinkText("Test Image Png"));
             var pdfHref = testLink.GetAttribute("href");
-            var imageResult = DownloadBytes(new Uri(pdfHref));
-            var image = Image.FromStream(new MemoryStream(imageResult));
-            image.Should().Not.Be.Null();
-            image.RawFormat.Should().Be.EqualTo(ImageFormat.Png);
+            AssertImageFormat(new Uri(pdfHref), ImageFormat.Png);
         }
 
         [Fact]
@@ -104,10 +121,7 @@ namespace RotativaCore.WebTests
         {
             var testLink = _selenium.FindElement(By.LinkText("Test View Image"));
             var pdfHref = testLink.GetAttribute("href");
-            var imageResult = DownloadBytes(new Uri(pdfHref));
-            var image = Image.FromStream(new MemoryStream(imageResult));
-            image.Should().Not.Be.Null();
-            image.RawFormat.Should().Be.EqualTo(ImageFormat.Jpeg);
+            AssertImageFormat(new Uri(pdfHref), ImageFormat.Jpeg);
         }
         
         [Fact]
@@ -139,10 +153,7 @@ namespace RotativaCore.WebTests
         {
             var testLink = _selenium.FindElement(By.LinkText("Test View Image"));
             var pdfHref = testLink.GetAttribute("href");
-            var imageResult = DownloadBytes(new Uri(pdfHref));
-            var image = Image.FromStream(new MemoryStream(imageResult));
-            image.Should().Not.Be.Null();
-            image.RawFormat.Should().Be.EqualTo(ImageFormat.Jpeg);
+            AssertImageFormat(new Uri(pdfHref), ImageFormat.Jpeg);
         }
 
         [Fact]
@@ -163,10 +174,7 @@ namespace RotativaCore.WebTests
         {
             var testLink = _selenium.FindElement(By.LinkText("Test ViewAsImage with a model"));
             var pdfHref = testLink.GetAttribute("href");
-            var imageResult = DownloadBytes(new Uri(pdfHref));
-            var image = Image.FromStream(new MemoryStream(imageResult));
-            image.Should().Not.Be.Null();
-            image.RawFormat.Should().Be.EqualTo(ImageFormat.Jpeg);
+            AssertImageFormat(new Uri(pdfHref), ImageFormat.Jpeg);
         }
 
         [Fact]
@@ -187,10 +195,7 @@ namespace RotativaCore.WebTests
         {
             var testLink = _selenium.FindElement(By.LinkText("Test PartialViewAsImage with a model"));
             var pdfHref = testLink.GetAttribute("href");
-            var imageResult = DownloadBytes(new Uri(pdfHref));
-            var image = Image.FromStream(new MemoryStream(imageResult));
-            image.Should().Not.Be.Null();
-            image.RawFormat.Should().Be.EqualTo(ImageFormat.Jpeg);
+            AssertImageFormat(new Uri(pdfHref), ImageFormat.Jpeg);
         }
 
         [Fact]
@@ -212,10 +217,7 @@ namespace RotativaCore.WebTests
         {
             var testLink = _selenium.FindElement(By.LinkText("Ajax Image Test"));
             var pdfHref = testLink.GetAttribute("href");
-            var imageResult = DownloadBytes(new Uri(pdfHref));
-            var image = Image.FromStream(new MemoryStream(imageResult));
-            image.Should().Not.Be.Null();
-            image.RawFormat.Should().Be.EqualTo(ImageFormat.Jpeg);
+            AssertImageFormat(new Uri(pdfHref), ImageFormat.Jpeg);
         }
 
         [Fact]
@@ -236,10 +238,7 @@ namespace RotativaCore.WebTests
         {
             var testLink = _selenium.FindElement(By.LinkText("External CSS Test Image"));
             var pdfHref = testLink.GetAttribute("href");
-            var imageResult = DownloadBytes(new Uri(pdfHref));
-            var image = Image.FromStream(new MemoryStream(imageResult));
-            image.Should().Not.Be.Null();
-            image.RawFormat.Should().Be.EqualTo(ImageFormat.Jpeg);
+            AssertImageFormat(new Uri(pdfHref), ImageFormat.Jpeg);
         }
 
         public void Dispose()
