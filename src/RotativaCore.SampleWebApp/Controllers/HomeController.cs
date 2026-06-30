@@ -4,9 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.WindowsAzure.Storage;
 using RotativaCore.Options;
 using RotativaCore.SampleWebApp.Models;
 
@@ -67,16 +68,25 @@ namespace RotativaCore.SampleWebApp.Controllers
                     if (string.IsNullOrEmpty(fileName))
                         fileName = $"{Guid.NewGuid()}.pdf";
 
-                    var container = CloudStorageAccount
-                        .Parse(connectionString: null) // Please set your value.If it's null, it will result in an ArgumentNullException().
-                        .CreateCloudBlobClient()
-                        .GetContainerReference(containerName: null); // Please set your value.If it's null, it will result in an ArgumentNullException().
+                    var container = new BlobContainerClient(
+                        connectionString: null, // Please set your value. If it's null, it will result in an ArgumentNullException().
+                        blobContainerName: null); // Please set your value. If it's null, it will result in an ArgumentNullException().
 
                     try
                     {
-                        var blockBlob = container.GetBlockBlobReference(fileName);
-                        blockBlob.Properties.ContentType = "application/pdf";
-                        await blockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
+                        await container.CreateIfNotExistsAsync();
+
+                        var blockBlob = container.GetBlobClient(fileName);
+                        using var blobStream = new MemoryStream(bytes);
+                        await blockBlob.UploadAsync(
+                            blobStream,
+                            new BlobUploadOptions
+                            {
+                                HttpHeaders = new BlobHttpHeaders
+                                {
+                                    ContentType = "application/pdf"
+                                }
+                            });
                     }
                     catch (Exception e)
                     {
