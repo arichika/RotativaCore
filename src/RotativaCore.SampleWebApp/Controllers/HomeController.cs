@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using RotativaCore.Options;
 using RotativaCore.SampleWebApp.Models;
 
@@ -180,8 +179,7 @@ namespace RotativaCore.SampleWebApp.Controllers
             // However imagine that you have your own UrlHelper extensions like UrlHelper.User(...)
             // where you create correct URL according to passed conditions, prepare some complex model, etc.
 
-            var urlHelper = new UrlHelper(ControllerContext);
-            var url = urlHelper.Action("Index", new { name = "Great Friends" });
+            var url = Url.Action("Index", new { name = "Great Friends" });
 
             return new UrlAsPdf(url)
             {
