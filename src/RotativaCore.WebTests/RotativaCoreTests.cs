@@ -96,7 +96,7 @@ namespace RotativaCore.WebTests
             var pdfTester = new PdfTester(_output);
             pdfTester.LoadPdf(pdfResult);
             pdfTester.PdfIsValid.Should().Be.True();
-            pdfTester.PdfContains("My MVC Application").Should().Be.True();
+            pdfTester.PdfContains("Some text with non ascii char").Should().Be.True();
         }
 
         [Fact]
