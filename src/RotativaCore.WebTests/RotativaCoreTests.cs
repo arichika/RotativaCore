@@ -6,11 +6,13 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.Versioning;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace RotativaCore.WebTests
 {
+    [SupportedOSPlatform("windows")]
     public class RotativaCoreTests : IDisposable
     {
         private readonly ITestOutputHelper _output;
