@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/RotativaCore.SampleWebApp/RotativaCore.SampleWebApp.csproj" />
+    <Project Path="src/RotativaCore/RotativaCore.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="src/RotativaCore.WebTests/RotativaCore.WebTests.csproj" />
+  </Folder>
+</Solution>
