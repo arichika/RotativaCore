@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
@@ -46,31 +44,25 @@ namespace RotativaCore.SampleWebApp.Controllers
                 ContentDisposition = ContentDisposition.Inline,
                 TryCustomizeAsync = async (stream, context, fineName) =>
                 {
-                    // some code done.
-                    return true;
-
-                    // e.g.
-                    var customizeStream = new MemoryStream();
-                    await stream.CopyToAsync(customizeStream);
-
-                    // ...
-                    stream.SetLength(0);
-                    await customizeStream.CopyToAsync(stream);
-
+                    // No customization by default. Add your stream processing here when needed.
                     return true;
                 },
                 OnBuildFileSuccess = async (bytes, context, fileName) =>
                 {
-                    // some code done.
-                    return true;
-
-                    // example.
                     if (string.IsNullOrEmpty(fileName))
                         fileName = $"{Guid.NewGuid()}.pdf";
 
+                    string blobConnectionString = null;
+                    string blobContainerName = null;
+                    if (string.IsNullOrEmpty(blobConnectionString) || string.IsNullOrEmpty(blobContainerName))
+                    {
+                        // No upload by default. Set both values to enable Blob Storage output.
+                        return true;
+                    }
+
                     var container = new BlobContainerClient(
-                        connectionString: null, // Please set your value. If it's null, it will result in an ArgumentNullException().
-                        blobContainerName: null); // Please set your value. If it's null, it will result in an ArgumentNullException().
+                        connectionString: blobConnectionString,
+                        blobContainerName: blobContainerName);
 
                     try
                     {
@@ -88,7 +80,7 @@ namespace RotativaCore.SampleWebApp.Controllers
                                 }
                             });
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         // logging.
                         return false;  // fire InvalidOperationException()
