@@ -12,18 +12,12 @@ namespace RotativaCore.SampleWebApp.Controllers
         // GET: /AjaxTests/
         public ActionResult Index()
         {
-            return new ViewAsPdf("Index")
-            {
-                //CustomSwitches = "--enable-javascript --window-status jsdone"
-            };
+            return new UrlAsPdf(Url.Action("Index2", "AjaxTests"));
         }
 
         public ActionResult IndexImage()
         {
-            return new ViewAsImage("Index")
-            {
-                //CustomSwitches = "--enable-javascript --window-status jsdone"
-            };
+            return new UrlAsImage(Url.Action("Index2", "AjaxTests"));
         }
 
         public ActionResult Index2()
