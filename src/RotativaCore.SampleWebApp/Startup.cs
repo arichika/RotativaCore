@@ -30,8 +30,7 @@ namespace RotativaCore.SampleWebApp
             });
 
 
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson();
+            services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
