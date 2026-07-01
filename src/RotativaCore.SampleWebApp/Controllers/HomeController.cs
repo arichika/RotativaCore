@@ -1,0 +1,323 @@
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Mvc;
+using RotativaCore.Options;
+using RotativaCore.SampleWebApp.Models;
+
+namespace RotativaCore.SampleWebApp.Controllers
+{
+    public class HomeController : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult EmptyContent()
+        {
+            return NoContent();
+        }
+
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+        public IActionResult TestInline()
+        {
+            return new ActionAsPdf("Index")
+            {
+                //FileName = "Test.pdf",
+                ContentDisposition = ContentDisposition.Inline,
+                TryCustomizeAsync = async (stream, context, fineName) =>
+                {
+                    // No customization by default. Add your stream processing here when needed.
+                    return true;
+                },
+                OnBuildFileSuccess = async (bytes, context, fileName) =>
+                {
+                    if (string.IsNullOrEmpty(fileName))
+                        fileName = $"{Guid.NewGuid()}.pdf";
+
+                    string blobConnectionString = null;
+                    string blobContainerName = null;
+                    if (string.IsNullOrEmpty(blobConnectionString) || string.IsNullOrEmpty(blobContainerName))
+                    {
+                        // No upload by default. Set both values to enable Blob Storage output.
+                        return true;
+                    }
+
+                    var container = new BlobContainerClient(
+                        connectionString: blobConnectionString,
+                        blobContainerName: blobContainerName);
+
+                    try
+                    {
+                        await container.CreateIfNotExistsAsync();
+
+                        var blockBlob = container.GetBlobClient(fileName);
+                        using var blobStream = new MemoryStream(bytes);
+                        await blockBlob.UploadAsync(
+                            blobStream,
+                            new BlobUploadOptions
+                            {
+                                HttpHeaders = new BlobHttpHeaders
+                                {
+                                    ContentType = "application/pdf"
+                                }
+                            });
+                    }
+                    catch (Exception)
+                    {
+                        // logging.
+                        return false;  // fire InvalidOperationException()
+                    }
+
+                    return true;
+                },
+            };
+        }
+
+
+        public async Task<IActionResult> TestEmptyContentActionAsPdfInline()
+        {
+            return new ActionAsPdf("EmptyContent")
+            {
+                // FileName = "TestEmptyContent.pdf", // because "Inline"
+                ContentDisposition = ContentDisposition.Inline,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
+
+        public async Task<IActionResult> TestEmptyContentActionAsPdfAttachment()
+        {
+            return new ActionAsPdf("EmptyContent")
+            {
+                FileName = "TestEmptyContent.pdf",
+                ContentDisposition = ContentDisposition.Attachment,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
+
+        public async Task<IActionResult> TestEmptyContentActionAsImageInline()
+        {
+            return new ActionAsImage("EmptyContent")
+            {
+                // FileName = "TestEmptyContent.png",, // because "Inline"
+                ContentDisposition = ContentDisposition.Inline,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
+
+        public async Task<IActionResult> TestEmptyContentActionAsImageAttachment()
+        {
+            return new ActionAsImage("EmptyContent")
+            {
+                FileName = "TestEmptyContent.png",
+                ContentDisposition = ContentDisposition.Attachment,
+                OnNoContentAsync = async (ex, context) =>
+                {
+                    context.HttpContext.Response.Redirect("https://example.com/");
+                }
+            };
+        }
+
+        public ActionResult TestAttachmentWithA4LandscapeDisableSmartShrinkingViewPortSize1024()
+        {
+            return new ActionAsPdf("Index")
+            {
+                FileName = "TestWithA4LandscapeDisableSmartShrinkingViewPortSize1024.pdf",
+                ContentDisposition = ContentDisposition.Attachment,
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Landscape,
+                DisableSmartShrinking = true,
+                ViewportSize = 1024,
+            };
+        }
+
+        public ActionResult TestImage()
+        {
+            return new ActionAsImage("Index")
+            {
+                FileName = "TestImage.jpg"
+            };
+        }
+
+        public ActionResult TestImagePng()
+        {
+            return new ActionAsImage("Index")
+            {
+                FileName = "TestImagePng.png",
+                Format = ImageFormat.png
+            };
+        }
+
+        public ActionResult TestUrl()
+        {
+            // Now I realize that this isn't very expressive example of why this can be useful.
+            // However imagine that you have your own UrlHelper extensions like UrlHelper.User(...)
+            // where you create correct URL according to passed conditions, prepare some complex model, etc.
+
+            var url = Url.Action("Index", new { name = "Great Friends" });
+
+            return new UrlAsPdf(url)
+            {
+                FileName = "TestUrl.pdf"
+            };
+        }
+
+        public ActionResult TestExternalUrl()
+        {
+            // In some cases you might want to pull completely different URL that is not related to your application.
+            // You can do that by specifying full URL.
+
+            return new UrlAsPdf("http://www.github.com")
+            {
+                FileName = "TestExternalUrl.pdf",
+                PageMargins = new Margins(0, 0, 0, 0)
+            };
+        }
+
+        public ActionResult TestView()
+        {
+            // The more usual way of using this would be to have a Model object that you would pass into ViewAsPdf
+            // and work with that Model inside your View.
+            // Good example could be an Order Summary page on some fictional E-shop.
+
+            // Probably the biggest advantage of this approach is that you have Session object available.
+
+            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", "Super Great Friends");
+            return new ViewAsPdf("Index")
+            {
+                FileName = "TestView.pdf",
+                PageSize = Size.A3,
+                PageOrientation = Orientation.Landscape,
+                PageMargins = { Left = 0, Right = 0 },
+                ContentDisposition = ContentDisposition.Inline
+            };
+        }
+
+        public ActionResult TestViewImage()
+        {
+            // The more usual way of using this would be to have a Model object that you would pass into ViewAsImage
+            // and work with that Model inside your View.
+            // Good example could be an Order Summary page on some fictional E-shop.
+
+            // Probably the biggest advantage of this approach is that you have Session object available.
+
+            ViewBag.Message = string.Format("Hello {0} to ASP.NET Core!", "Super Great Friends");
+            return new ViewAsImage("Index")
+            {
+                FileName = "TestViewImage.png",
+            };
+        }
+
+        public ActionResult TestViewWithModel(string id)
+        {
+            var model = new TestViewModel
+            {
+                DocTitle = id,
+                DocContent = "This is a test"
+            };
+
+            return new ViewAsPdf("TestViewWithModel", model)
+            {
+                FileName = "TestViewWithModel.pdf"
+            };
+        }
+
+        public ActionResult TestImageViewWithModel(string id)
+        {
+            var model = new TestViewModel
+            {
+                DocTitle = id,
+                DocContent = "This is a test"
+            };
+
+            return new ViewAsImage("TestViewWithModel", model)
+            {
+                FileName = "TestImageViewWithModel.pdf"
+            };
+        }
+
+        public ActionResult TestPartialViewWithModel(string id)
+        {
+            var model = new TestViewModel
+            {
+                DocTitle = id,
+                DocContent = "This is a test with a partial view"
+            };
+
+            return new PartialViewAsPdf("TestPartialViewWithModel", model)
+            {
+                FileName = "TestPartialViewWithModel.pdf"
+            };
+        }
+
+        public ActionResult TestImagePartialViewWithModel(string id)
+        {
+            var model = new TestViewModel
+            {
+                DocTitle = id,
+                DocContent = "This is a test with a partial view"
+            };
+
+            return new PartialViewAsImage("TestPartialViewWithModel", model);
+        }
+
+        public ActionResult ErrorTest()
+        {
+            return new ActionAsPdf("SomethingBad")
+            {
+                FileName = "ErrorTest.pdf"
+            };
+        }
+
+        public ActionResult SomethingBad()
+        {
+            return Redirect("http://thisdoesntexists");
+        }
+
+        public ActionResult RouteTest()
+        {
+            return new RouteAsPdf("TestRoute")
+            {
+                FileName = "RouteTest.pdf"
+            };
+        }
+
+        [Obsolete]
+        public ActionResult BinaryTest()
+        {
+            var pdfResult = new ActionAsPdf("Index")
+            {
+                FileName = "BinaryTest.pdf"
+            };
+
+            var binary = pdfResult.BuildPdf(this.ControllerContext);
+
+            return File(binary, "application/pdf");
+        }
+    }
+}

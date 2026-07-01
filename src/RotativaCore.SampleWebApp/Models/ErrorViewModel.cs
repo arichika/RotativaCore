@@ -1,6 +1,6 @@
 using System;
 
-namespace RotativaCore.SampleWebApp._3._0.Models
+namespace RotativaCore.SampleWebApp.Models
 {
     public class ErrorViewModel
     {

@@ -4,6 +4,10 @@ Extremely easy way to create Pdf files from ASP.NET Core
 New Features
 ------
 
+### 4.1.1
+
+* Updated RotativaCore package dependencies and package metadata while keeping the core library target on `netstandard2.0`.
+
 ### 4.1.0
 
 * Support new delegate. `OnNoContentAsync()`
@@ -89,20 +93,30 @@ New Features
                     if (string.IsNullOrEmpty(fileName))
                         fileName = $"{Guid.NewGuid()}.pdf";
 
-                    var container = CloudStorageAccount
-                         // Please set your value.
-                         // If it's null, it will result in an ArgumentNullException().
-                        .Parse(connectionString:null)
-                        .CreateCloudBlobClient()
+                    var container = new BlobContainerClient(
                         // Please set your value.
                         // If it's null, it will result in an ArgumentNullException().
-                        .GetContainerReference(containerName:null);
+                        connectionString: null,
+                        // Please set your value.
+                        // If it's null, it will result in an ArgumentNullException().
+                        blobContainerName: null);
 
                     try
                     {
-                        var blockBlob = container.GetBlockBlobReference(fileName);
-                        blockBlob.Properties.ContentType = "application/pdf";
-                        await blockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
+                        await container.CreateIfNotExistsAsync();
+
+                        var blockBlob = container.GetBlobClient(fileName);
+                        using var stream = new MemoryStream(bytes);
+
+                        await blockBlob.UploadAsync(
+                            stream,
+                            new BlobUploadOptions
+                            {
+                                HttpHeaders = new BlobHttpHeaders
+                                {
+                                    ContentType = "application/pdf"
+                                }
+                            });
                     }
                     catch (Exception e)
                     {

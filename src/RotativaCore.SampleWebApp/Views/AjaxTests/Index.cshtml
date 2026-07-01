@@ -13,9 +13,8 @@
 {
     <script type="text/javascript">
         $(function() {
-
-            $('#ajaxContent').load('http://localhost:53793/AjaxTests/AjaxContent');
-        })
+            $('#ajaxContent').load('@Url.Action("AjaxContent", "AjaxTests", null, Context.Request.Scheme)');
+        });
 
     </script>
 }

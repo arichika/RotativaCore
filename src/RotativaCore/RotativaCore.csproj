@@ -5,7 +5,6 @@
     <AssemblyName>RotativaCore</AssemblyName>
     <PackageId>RotativaCore</PackageId>
 
-    <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
@@ -14,12 +13,12 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyAssemblyVersionAttribute>fasle</GenerateAssemblyAssemblyVersionAttribute>
+    <GenerateAssemblyAssemblyVersionAttribute>false</GenerateAssemblyAssemblyVersionAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyDescription>false</GenerateAssemblyDescription>
 
-    <Version>4.1.0</Version>
+    <Version>4.1.1</Version>
 
     <Authors>@arichika (arichika.taniguchi)</Authors>
     <Title>RotativaCore</Title>
@@ -30,13 +29,18 @@
 
     <PackageProjectUrl>https://github.com/arichika/RotativaCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/arichika/RotativaCore</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/arichika/RotativaCore/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

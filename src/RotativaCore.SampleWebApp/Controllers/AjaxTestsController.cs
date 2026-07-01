@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RotativaCore.SampleWebApp._3._0.Controllers
+namespace RotativaCore.SampleWebApp.Controllers
 {
     public class AjaxTestsController : Controller
     {
@@ -12,18 +12,12 @@ namespace RotativaCore.SampleWebApp._3._0.Controllers
         // GET: /AjaxTests/
         public ActionResult Index()
         {
-            return new ViewAsPdf("Index")
-            {
-                //CustomSwitches = "--enable-javascript --window-status jsdone"
-            };
+            return new UrlAsPdf(Url.Action("Index2", "AjaxTests"));
         }
 
         public ActionResult IndexImage()
         {
-            return new ViewAsImage("Index")
-            {
-                //CustomSwitches = "--enable-javascript --window-status jsdone"
-            };
+            return new UrlAsImage(Url.Action("Index2", "AjaxTests"));
         }
 
         public ActionResult Index2()
