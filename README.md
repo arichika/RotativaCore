@@ -4,6 +4,10 @@ Extremely easy way to create Pdf files from ASP.NET Core
 New Features
 ------
 
+### 4.1.1
+
+* Updated RotativaCore package dependencies and package metadata while keeping the core library target on `netstandard2.0`.
+
 ### 4.1.0
 
 * Support new delegate. `OnNoContentAsync()`
